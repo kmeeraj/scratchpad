@@ -11,11 +11,32 @@
 
     <artifactId>AppServer</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.teradata.jdbc</groupId>
+            <artifactId>terajdbc4</artifactId>
+            <version>16.20.00.10</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/jars/terajdbc4.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.teradata.jdbc</groupId>
+            <artifactId>tdgssconfig</artifactId>
+            <version>16.20.00.10</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/jars/tdgssconfig.jar</systemPath>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
             </plugin>
         </plugins>
     </build>
