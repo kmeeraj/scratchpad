@@ -1,7 +1,7 @@
 
 <mat-card>
     <mat-card-content>
-        <form [formGroup]="cloudPerf" class="functions">
+        <form [formGroup]="cloudPerf" class="functions" (ngSubmit)="onSubmit(cloudPerf.value)" >
          
             <mat-form-field>
                 <mat-label>Choose Category</mat-label>
@@ -16,7 +16,7 @@
                 </mat-select>
             </mat-form-field>
            
-            <ng-container *ngFor="let query of queries">
+            <ng-container *ngFor="let query of queries;let i = index">
                 <!--      <td-code-editor
                      [style.height.px]="50"
                      editorStyle="border:0;"
@@ -28,7 +28,10 @@
                      (ngModelChange)="callBackFunc()">
              </td-code-editor> -->
              <mat-form-field>
-             <textarea matInput value={{query}}></textarea>
+               <mat-label>Query</mat-label>
+             <textarea
+               matInput
+               [value]="query"></textarea>
             </mat-form-field>
                  </ng-container>
             <mat-form-field>
@@ -40,7 +43,7 @@
 
         
             <div class="actions">
-                <div><button mat-raised-button>Run Function</button></div>
+                <div><button type="submit" mat-raised-button>Run Function</button></div>
             </div>
            
         </form>

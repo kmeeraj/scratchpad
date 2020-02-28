@@ -1,22 +1,25 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import {Component, ViewChild, ElementRef, OnInit} from '@angular/core';
 import { Chart } from 'angular-highcharts';
 import ForceGraph3D from '3d-force-graph';
 import { dummyjson, realjson } from '../json/miserables';
 import { FormGroup, FormControl } from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
+import {AnalyticsService} from '../app/services/analytics.service';
 @Component({
     selector:'graphs',
     templateUrl:'./graphs.component.html',
     styleUrls:['./graphs.component.scss']
 })
-export class GraphsComponent {
+export class GraphsComponent implements OnInit{
 
     cloudPerf = new FormGroup({
         category: new FormControl(''),
         function: new FormControl(''),
+        query: new FormControl(''),
         cloud: new FormControl('')
     })
     @ViewChild('child',{static:true})child: ElementRef;
-    highChartsOptions: any =
+    highChartsOptions =
     {
         chart: {
             renderTo: 'container',
@@ -42,73 +45,60 @@ export class GraphsComponent {
                 borderWidth: 0
             }
         },
-        xAxis:{
-            categories:[
-                
+        xAxis: {
+            categories: [
+
             ]
         },
-        yAxis:{
-          title:'Performance'
+        yAxis: {
+          title: undefined
         },
         series: [{
-            name:'AWS',
-            data: []
+            name: 'AWS',
+            data: [],
+            type: undefined
         },
         {
-            name:'AZURE',
-            data:[]
+            name: 'AZURE',
+            data: [],
+            type: undefined
         }
     ]
-    }
-  chart: Chart = new Chart(this.highChartsOptions);
+    };
+  chart: Chart ;
 
   categories = [];
   functions = [];
   queries = [];
-  clouds=["AWS","Azure","GCP"]
-
+  clouds = ['AWS', 'Azure', 'GCP'];
   sampleData;
-  //myGraph;
-  sampleCats={
-    "Analytics": [{
-        "category": "Data Preparation and Transformation",
-        "functions": [{
-            "functionName": "antiselect",
-            "query": [
-              "select * from antiselect( on antiselect_test Using Exclude('a') )as dt order by 1,2,3;",
-              "select * from antiselect( on antiselect_test Using Exclude('d') )as dt order by 1,2,3;"
-            ]
-          },
-          {
-            "functionName": "unpack",
-            "query": [
-              "SELECT packed_data, cast(gender as varchar(1000)) as gender, cast(race as varchar(1000)) as race, numBuys, numSells, id, src FROM unpack( ON unpack_input using TargetColumn('packed_data') OutputColumns('packed_data','gender','race','numBuys','numSells') OutputDataTypes('INTEGER','varchar','varchar','INTEGER','INTEGER') Regex('(.*)') RegexSet(1) IgnoreInvalid('False') )as dt order by 1,2,3,4,5,6,7;"
-            ]
-          }
-        ]
-      },
-      {
-        "category": "Path and Pattern Analysis",
-        "functions": [{
-          "functionName": "Attribution",
-          "query": ["SELECT * FROM Attribution( ON attribution_sample_table AS \"input\" PARTITION BY user_id ORDER BY time_stamp ON attribution_sample_table2 AS \"input2\" PARTITION BY user_id ORDER BY time_stamp ON conversion_event_table AS \"ConversionEventTable\" DIMENSION  ON excluding_event_table AS \"ExcludedEventTable\" DIMENSION  ON optional_event_table AS \"OptionalEventTable\" DIMENSION  ON model1_table AS \"FirstModel\" DIMENSION  using EventColumn('event') TimeColumn('time_stamp') WindowSize('rows:10') ) as dt order by 1,2,3,4,5;"]
-        }]
-      }
-    ]
+
+  sampleCats = { Analytics : []};
+
+  constructor(private analyticsService: AnalyticsService){
+
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    this.analyticsService.getAnalytics().subscribe( (data) => {
+      this.sampleCats.Analytics = data;
+      this.renderGraph();
+    });
+  }
 
-    this.categories= this.sampleCats["Analytics"].map(cat => cat.category);
+  renderGraph() {
 
-    this.sampleData=realjson;
+    this.categories = this.sampleCats.Analytics.map(cat => cat.category);
 
-    this.sampleData.forEach((element,index) => {
+    this.sampleData = realjson;
+
+    this.sampleData.forEach((element, index) => {
         this.highChartsOptions.xAxis.categories.push(element["functionName"]);
         this.highChartsOptions.series[0].data.push(element["times"][0]["timeTakenMs"]);
         this.highChartsOptions.series[1].data.push(element["times"][1]["timeTakenMs"]);
     });
 
+    this.chart = new Chart(this.highChartsOptions);
 
     this.cloudPerf.get('category').valueChanges.subscribe(
         val =>{
@@ -120,13 +110,13 @@ export class GraphsComponent {
       val =>{
           this.queries = this.getQueries(val);
       }
-  )
-    
+  );
+
    // this.myGraph = ForceGraph3D()(this.child.nativeElement).graphData(dummyjson);
   }
 
   getFunctions(val: any ){
-    let filteredCat =  this.sampleCats["Analytics"].filter(cat => cat.category == val);
+    let filteredCat =  this.sampleCats.Analytics.filter(cat => cat.category == val);
     return filteredCat[0]["functions"]
   }
 
@@ -135,5 +125,12 @@ export class GraphsComponent {
     let queries = filteredCat[0]["functions"].filter(func=> func.functionName == val)[0]["query"]; 
     return queries;
   }
- 
+
+  onSubmit(value: any) {
+    console.log(value);
+
+    this.analyticsService.runAnalytics(value).subscribe((data) => {
+      console.log(data);
+    });
+  }
 }
