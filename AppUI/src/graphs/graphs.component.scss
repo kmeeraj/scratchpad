@@ -1,0 +1,15 @@
+.chart {
+    margin-top:2%;
+}
+.functions{
+    display:flex;
+    flex-direction: column;
+}
+.actions{
+    display: flex;
+    flex-direction: row;
+    padding-top:2%;
+}
+.actions div:first-child {
+    padding-right:2%;
+}

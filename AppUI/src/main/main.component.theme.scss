@@ -1,0 +1,13 @@
+@mixin main-component-theme($theme) {
+
+    $app_primary: map-get($theme,$primary );
+    $app_accent : map-get($theme,$accent );
+    $app_warn : map-get($theme,$warn );
+
+
+    .menu {
+        background-color: transparent;
+        border-color:transparent;
+    }
+
+}
