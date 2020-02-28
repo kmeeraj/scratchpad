@@ -1,3 +1,6 @@
+export const realjson = JSON.parse(`[{"id":1,"functionName":"LINEAR","category":"LINEAR","times":[{"id":1,"timeTakenMs":100,"cloud":"AZURE","functionId":1},{"id":2,"timeTakenMs":150,"cloud":"AWS","functionId":1}]},{"id":2,"functionName":"MAX","category":"LINEAR","times":[{"id":4,"timeTakenMs":310,"cloud":"AWS","functionId":2},{"id":3,"timeTakenMs":250,"cloud":"AZURE","functionId":2}]},{"id":3,"functionName":"MIN","category":"LINEAR","times":[{"id":5,"timeTakenMs":420,"cloud":"AZURE","functionId":3},{"id":6,"timeTakenMs":340,"cloud":"AWS","functionId":3}]},{"id":4,"functionName":"LEAST SQUARE","category":"QUADRATIC","times":[{"id":8,"timeTakenMs":130,"cloud":"AWS","functionId":4},{"id":7,"timeTakenMs":240,"cloud":"AZURE","functionId":4}]},{"id":5,"functionName":"SVD","category":"LINEAR","times":[{"id":10,"timeTakenMs":340,"cloud":"AWS","functionId":5},{"id":9,"timeTakenMs":240,"cloud":"AZURE","functionId":5}]}]`)
+
+
 export const dummyjson = JSON.parse(`{
     "nodes": [
       {"id": "Myriel", "group": 1},
@@ -335,3 +338,5 @@ export const dummyjson = JSON.parse(`{
       {"source": "Mme.Hucheloup", "target": "Enjolras", "value": 1}
     ]
   }`)
+
+  

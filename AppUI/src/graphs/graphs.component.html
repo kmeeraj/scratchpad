@@ -2,6 +2,7 @@
 <mat-card>
     <mat-card-content>
         <form [formGroup]="cloudPerf" class="functions">
+         
             <mat-form-field>
                 <mat-label>Choose Category</mat-label>
                 <mat-select formControlName="category" >
@@ -11,12 +12,17 @@
             <mat-form-field>
                 <mat-label>Choose Function</mat-label>
                 <mat-select formControlName="function" >
-                    <mat-option *ngFor="let function of functions" [value]="function">{{ function }}</mat-option>
+                    <mat-option *ngFor="let function of functions" [value]="function.functionName">{{ function.functionName }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Choose Cloud</mat-label>
+                <mat-select formControlName="cloud" multiple>
+                    <mat-option *ngFor="let cloud of clouds" [value]="cloud">{{ cloud }}</mat-option>
                 </mat-select>
             </mat-form-field>
             <div class="actions">
-                <div><button mat-raised-button>Run on Azure</button></div>
-                <div><button mat-raised-button>Run on Aws</button></div>
+                <div><button mat-raised-button>Run Function</button></div>
             </div>
            
         </form>
