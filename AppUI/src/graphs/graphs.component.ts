@@ -30,14 +30,14 @@ export class GraphsComponent {
             }
         },
         title: {
-            text: 'Chart rotation demo'
+            text: 'Function Performance Comparison'
         },
         subtitle: {
-            text: 'Test options by dragging the sliders below'
+            text: 'AZURE VS AWS'
         },
         plotOptions: {
             column: {
-                depth: 25,
+                depth: 50,
                 pointPadding: 0.2,
                 borderWidth: 0
             }
@@ -46,6 +46,9 @@ export class GraphsComponent {
             categories:[
                 
             ]
+        },
+        yAxis:{
+          title:'Performance'
         },
         series: [{
             name:'AWS',
@@ -61,6 +64,7 @@ export class GraphsComponent {
 
   categories = [];
   functions = [];
+  queries = [];
   clouds=["AWS","Azure","GCP"]
 
   sampleData;
@@ -108,9 +112,15 @@ export class GraphsComponent {
 
     this.cloudPerf.get('category').valueChanges.subscribe(
         val =>{
-            this.functions = this.getFunctions(val)
+            this.functions = this.getFunctions(val);
         }
     )
+
+    this.cloudPerf.get('function').valueChanges.subscribe(
+      val =>{
+          this.queries = this.getQueries(val);
+      }
+  )
     
    // this.myGraph = ForceGraph3D()(this.child.nativeElement).graphData(dummyjson);
   }
@@ -120,4 +130,10 @@ export class GraphsComponent {
     return filteredCat[0]["functions"]
   }
 
+  getQueries(val:any) {
+    let filteredCat =  this.sampleCats["Analytics"].filter(cat => cat.category == this.cloudPerf.get('category').value);
+    let queries = filteredCat[0]["functions"].filter(func=> func.functionName == val)[0]["query"]; 
+    return queries;
+  }
+ 
 }
