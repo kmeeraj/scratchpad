@@ -15,12 +15,30 @@
                     <mat-option *ngFor="let function of functions" [value]="function.functionName">{{ function.functionName }}</mat-option>
                 </mat-select>
             </mat-form-field>
+           
+            <ng-container *ngFor="let query of queries">
+                <!--      <td-code-editor
+                     [style.height.px]="50"
+                     editorStyle="border:0;"
+                     flex
+                     theme="vs"
+                     language="sql"
+                     [editorOptions]="{readOnly:true, fontSize:20}"
+                     [(ngModel)]="query"
+                     (ngModelChange)="callBackFunc()">
+             </td-code-editor> -->
+             <mat-form-field>
+             <textarea matInput value={{query}}></textarea>
+            </mat-form-field>
+                 </ng-container>
             <mat-form-field>
                 <mat-label>Choose Cloud</mat-label>
                 <mat-select formControlName="cloud" multiple>
                     <mat-option *ngFor="let cloud of clouds;let i = index" [value]="cloud" [disabled]="i==2">{{ cloud }}</mat-option>
                 </mat-select>
             </mat-form-field>
+
+        
             <div class="actions">
                 <div><button mat-raised-button>Run Function</button></div>
             </div>
