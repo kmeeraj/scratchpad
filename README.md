@@ -1,7 +1,7 @@
 Scratchpad
 ======
 
-Application used for know analystics of SQLE and MLE functions performance on Cloud platforms like Azure, AWS, GCP
+Application used to view performace of SQLE and MLE functions on Cloud platforms like Azure, AWS, GCP
 
 ## Build from source ##
 
