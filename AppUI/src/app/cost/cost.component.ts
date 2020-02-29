@@ -31,7 +31,7 @@ export class CostComponent {
         },
         xAxis: {
             categories: [
-                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'
             ],
             title:{
                 text:'Usage'
@@ -39,17 +39,27 @@ export class CostComponent {
         },
         yAxis: {
           title: {
-              text:"Cost"
+              text:"Cost ($)"
           }
         },
         series: [{
-            name: 'AWS',
-            data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+            name: 'AWS(2)',
+            data: [200, 100, 400,900, 1300, 1600, 2000, 2015 ],
             type: undefined
         },
         {
-            name: 'AZURE',
-            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8],
+            name: 'AZURE(2)',
+            data: [90, 100, 200, 500, 800, 1200, 1400, 2000],
+            type: undefined
+        },
+        {
+            name: 'AWS(1)',
+            data: [700, 600, 900, 1400, 1800, 2100, 2500, 2600 ],
+            type: undefined
+        },
+        {
+            name: 'AZURE(1)',
+            data: [300, 400, 500, 800, 1100, 1500, 1700, 2300],
             type: undefined
         }
     ]
