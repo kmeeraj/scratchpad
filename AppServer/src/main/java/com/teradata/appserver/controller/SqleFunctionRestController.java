@@ -89,7 +89,8 @@ public class SqleFunctionRestController {
                     errorMessage = e.getMessage();
                 }
                 finally {
-                    errorMessage = errorMessage.substring(0,200);
+                    if(errorMessage.length() > 200)
+                        errorMessage = errorMessage.substring(0,200);
                     long endTime = System.currentTimeMillis();
                     FunctionTime functionTime = FunctionTime.builder()
                            // .sqleFunction(sqleFunction)
@@ -118,7 +119,8 @@ public class SqleFunctionRestController {
                 }
                 finally {
                     long endTime = System.currentTimeMillis();
-                    errorMessage = errorMessage.substring(0,200);
+                    if(errorMessage.length() > 200)
+                      errorMessage = errorMessage.substring(0,200);
                     FunctionTime functionTime = FunctionTime.builder()
                            // .sqleFunction(sqleFunction)
                             .cloud("Azure")

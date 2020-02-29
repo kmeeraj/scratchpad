@@ -3,14 +3,14 @@
     "functions": [{
       "functionName": "antiselect",
       "query": [
-        "select * from antiselect ( on antiselect_test Using Exclude('a') ) as dt order by 1,2,3",
-        "select * from antiselect ( on antiselect_test Using Exclude('d') ) as dt order by 1,2,3"
+        "select * from antiselect ( on antiselect_test Using Exclude('a') ) as dt order by 1,2,3 ;",
+        "select * from antiselect ( on antiselect_test Using Exclude('d') ) as dt order by 1,2,3 ;"
       ]
     },
       {
         "functionName": "unpack",
         "query": [
-          "SELECT packed_data, cast( gender as varchar(1000)) as gender, cast(race as varchar(1000) ) as race, numBuys, numSells, id, src FROM unpack( ON unpack_input using TargetColumn('packed_data') OutputColumns('packed_data','gender','race','numBuys','numSells') OutputDataTypes('INTEGER','varchar','varchar','INTEGER','INTEGER') Regex('(.*)') RegexSet(1) IgnoreInvalid('False') )as dt order by 1,2,3,4,5,6,7"
+          "SELECT packed_data, cast( gender as varchar(1000)) as gender, cast(race as varchar(1000) ) as race, numBuys, numSells, id, src FROM unpack( ON unpack_input using TargetColumn('packed_data') OutputColumns('packed_data','gender','race','numBuys','numSells') OutputDataTypes('INTEGER','varchar','varchar','INTEGER','INTEGER') Regex('(.*)') RegexSet(1) IgnoreInvalid('False') )as dt order by 1,2,3,4,5,6,7 ;"
         ]
       }
     ]
@@ -19,7 +19,7 @@
       "category": "Path and Pattern Analysis",
       "functions": [{
         "functionName": "Attribution",
-        "query": ["SELECT * FROM Attribution( ON attribution_sample_table AS \"input\" PARTITION BY user_id ORDER BY time_stamp ON attribution_sample_table2 AS \"input2\" PARTITION BY user_id ORDER BY time_stamp ON conversion_event_table AS \"ConversionEventTable\" DIMENSION  ON excluding_event_table AS \"ExcludedEventTable\" DIMENSION  ON optional_event_table AS \"OptionalEventTable\" DIMENSION  ON model1_table AS \"FirstModel\" DIMENSION  using EventColumn('event') TimeColumn('time_stamp') WindowSize('rows:10') ) as dt order by 1,2,3,4,5 "]
+        "query": ["SELECT * FROM Attribution( ON attribution_sample_table AS \"input\" PARTITION BY user_id ORDER BY time_stamp ON attribution_sample_table2 AS \"input2\" PARTITION BY user_id ORDER BY time_stamp ON conversion_event_table AS \"ConversionEventTable\" DIMENSION  ON excluding_event_table AS \"ExcludedEventTable\" DIMENSION  ON optional_event_table AS \"OptionalEventTable\" DIMENSION  ON model1_table AS \"FirstModel\" DIMENSION  using EventColumn('event') TimeColumn('time_stamp') WindowSize('rows:10') ) as dt order by 1,2,3,4,5 ;"]
       }]
     }
   ]
