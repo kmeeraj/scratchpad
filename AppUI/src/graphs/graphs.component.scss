@@ -16,3 +16,8 @@
     flex-direction: column;
     background-color: white;
 }
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+   width:1000px !important;
+   height:100px !important;
+   border:1px solid lightgrey;
+}
