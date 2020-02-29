@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule,MatIconModule, MatListModule , MatToolbarModule, MatCardModule, MatSelectModule, MatButtonModule } from '@angular/material';
+import { MatInputModule,MatIconModule, MatListModule , MatToolbarModule, MatCardModule, MatSelectModule, MatButtonModule,MatSnackBarModule } from '@angular/material';
 import { CovalentLayoutModule } from '@covalent/core';
 import { CovalentCodeEditorModule } from '@covalent/code-editor';
 import { AppComponent } from './app.component';
@@ -37,6 +37,7 @@ import { CostComponent } from './cost/cost.component';
     MatSelectModule,
     MatButtonModule,
     MatInputModule,
+    MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule
   ],

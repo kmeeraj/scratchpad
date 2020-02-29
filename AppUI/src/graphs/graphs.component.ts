@@ -5,6 +5,7 @@ import { dummyjson, realjson } from '../json/miserables';
 import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {AnalyticsService} from '../app/services/analytics.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 @Component({
     selector:'graphs',
     templateUrl:'./graphs.component.html',
@@ -77,30 +78,41 @@ export class GraphsComponent implements OnInit{
 
   sampleCats = { Analytics : []};
 
-  constructor(private analyticsService: AnalyticsService, private formBuilder: FormBuilder){
+  constructor(private analyticsService: AnalyticsService, private formBuilder: FormBuilder,private _snackBar: MatSnackBar){
 
   }
 
   ngOnInit() {
     this.analyticsService.getAnalytics().subscribe( (data) => {
       this.sampleCats.Analytics = data;
+      this.renderFrom();
+    },(error)=>{
+      this.openSnackBar("Some error occurred");
+    });
+    this.analyticsService.getTimes().subscribe( (data) => {
+      this.sampleData = data;
       this.renderGraph();
+    },(error)=>{
+      this.openSnackBar("Some error occurred");
     });
   }
 
   renderGraph() {
+   
+    this.highChartsOptions.xAxis.categories=[];
+    this.highChartsOptions.series[0].data=[];
+    this.highChartsOptions.series[1].data=[];
+    Object.keys(this.sampleData).forEach((element) => {
+      this.highChartsOptions.xAxis.categories.push(element);
+      this.highChartsOptions.series[0].data.push(this.sampleData[element]["awsvalue"])
+      this.highChartsOptions.series[1].data.push(this.sampleData[element]["azurevalue"])
+    });
+    this.chart = new Chart(this.highChartsOptions);
+  }
+
+  renderFrom() {
 
     this.categories = this.sampleCats.Analytics.map(cat => cat.category);
-
-    this.sampleData = realjson;
-
-    this.sampleData.forEach((element, index) => {
-        this.highChartsOptions.xAxis.categories.push(element["functionName"]);
-        this.highChartsOptions.series[0].data.push(element["times"][0]["timeTakenMs"]);
-        this.highChartsOptions.series[1].data.push(element["times"][1]["timeTakenMs"]);
-    });
-
-    this.chart = new Chart(this.highChartsOptions);
 
     this.cloudPerf.get('category').valueChanges.subscribe(
         val =>{
@@ -142,6 +154,30 @@ export class GraphsComponent implements OnInit{
 
     this.analyticsService.runAnalytics(value).subscribe((data) => {
       console.log(data);
+    },(error)=>{
+      this.openSnackBar("Some error occurred");
+    });
+  }
+
+  refreshGraph(){
+    this.analyticsService.getTimes().subscribe( (data) => {
+      this.sampleData = data;
+      this.renderGraph();
+    });
+  }
+
+  runAll() {
+    this.analyticsService.runAll().subscribe((data) => {
+      console.log(data);
+      this.openSnackBar(data.toString());
+    },(error)=>{
+      this.openSnackBar("Some error occurred");
+    });
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message,null, {
+      duration: 2000,
     });
   }
 }

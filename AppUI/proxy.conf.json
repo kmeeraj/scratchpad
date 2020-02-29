@@ -10,5 +10,11 @@
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
+  },
+  "/time/*": {
+    "target": "http://localhost",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
   }
 }

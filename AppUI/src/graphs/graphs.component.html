@@ -23,10 +23,6 @@
                 [value]="item.value" >
             </textarea>
             </mat-form-field>
-<<<<<<< HEAD
-=======
-       
->>>>>>> 59402d8b93f333cd83b7152e12a0aa985e7c0372
             </div>
         <!--     <ng-container *ngFor="let query of queries;let i = index">
                       <td-code-editor
@@ -56,15 +52,23 @@
         
             <div class="actions">
                 <div><button type="submit" mat-raised-button>Run Function</button></div>
+                <div><button type="button" (click)="runAll()" mat-raised-button>Run All</button></div>
             </div>
            
         </form>
     </mat-card-content>
 </mat-card>
 
-<div class="chart" [chart]="chart">
+<div class="chart_container">
+    <div class="chart" [chart]="chart">
 
+    </div>
+    
+    <div>
+        <div><button type="button" mat-raised-button  (click)="refreshGraph()">Refresh graph</button></div>
+    </div>
 </div>
+
 <!-- 
 <div #child>
 

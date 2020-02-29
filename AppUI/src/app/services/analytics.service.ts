@@ -13,7 +13,14 @@ export class AnalyticsService {
     return this.http.get<any>(`/api/analytics`);
   }
 
+  getTimes(): Observable<any> {
+    return this.http.get<any>(`/time/all`);
+  }
   runAnalytics(value: any): Observable<any> {
     return this.http.post('/run/runAnalytics' , value);
+  }
+
+  runAll() {
+    return this.http.post('/run/runAll', 1);
   }
 }
