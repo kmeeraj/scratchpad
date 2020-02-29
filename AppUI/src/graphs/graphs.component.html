@@ -15,9 +15,17 @@
                     <mat-option *ngFor="let function of functions" [value]="function.functionName">{{ function.functionName }}</mat-option>
                 </mat-select>
             </mat-form-field>
-           
-            <ng-container *ngFor="let query of queries;let i = index">
-                <!--      <td-code-editor
+
+            <div formArrayName="names" *ngFor="let item of cloudPerf.get('names').controls;index as idx">
+            
+                <textarea
+                matInput [formControlName]="idx"
+                [value]="item.value"></textarea>
+            
+       
+            </div>
+        <!--     <ng-container *ngFor="let query of queries;let i = index">
+                      <td-code-editor
                      [style.height.px]="50"
                      editorStyle="border:0;"
                      flex
@@ -26,14 +34,14 @@
                      [editorOptions]="{readOnly:true, fontSize:20}"
                      [(ngModel)]="query"
                      (ngModelChange)="callBackFunc()">
-             </td-code-editor> -->
+             </td-code-editor> 
              <mat-form-field>
                <mat-label>Query</mat-label>
              <textarea
                matInput
                [value]="query"></textarea>
             </mat-form-field>
-                 </ng-container>
+                 </ng-container> -->
             <mat-form-field>
                 <mat-label>Choose Cloud</mat-label>
                 <mat-select formControlName="cloud" multiple>
