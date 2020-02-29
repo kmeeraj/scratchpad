@@ -16,7 +16,7 @@ export class GraphsComponent implements OnInit{
         category: new FormControl(''),
         function: new FormControl(''),
         cloud: new FormControl(''),
-        names: new FormArray([
+        queries: new FormArray([
         ])
     })
     @ViewChild('child',{static:true})child: ElementRef;
@@ -111,15 +111,14 @@ export class GraphsComponent implements OnInit{
     this.cloudPerf.get('function').valueChanges.subscribe(
       val =>{
          this.queries = this.getQueries(val);
-         this.cloudPerf.setControl('names', this.formBuilder.array([]));
+         this.cloudPerf.setControl('queries', this.formBuilder.array([]));
          this.queries.forEach(q => {
-          (this.cloudPerf.get('names') as FormArray).push(
+          (this.cloudPerf.get('queries') as FormArray).push(
           new FormControl(`${q}`)
           );
          }
          )
-         console.log(this.cloudPerf.get('names').value);
-        // console.log(this.cloudPerf.get('names')['controls']);
+         console.log(this.cloudPerf.get('queries').value);
         
     }
   );
