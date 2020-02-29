@@ -9,23 +9,20 @@
   }]
 },
   {
-    "category": "Pattern Analysis",
+    "category": "Path and Pattern Analysis",
     "functions": [{
       "functionName": "Attribution",
       "query": [
         "SELECT * FROM Attribution( ON attribution_sample_table AS \"input\" PARTITION BY user_id ORDER BY time_stamp ON attribution_sample_table2 AS \"input2\" PARTITION BY user_id ORDER BY time_stamp ON conversion_event_table AS \"ConversionEventTable\" DIMENSION  ON excluding_event_table AS \"ExcludedEventTable\" DIMENSION  ON optional_event_table AS \"OptionalEventTable\" DIMENSION  ON model1_table AS \"FirstModel\" DIMENSION  using EventColumn('event') TimeColumn('time_stamp') WindowSize('rows:10') ) as dt order by 1,2,3,4,5;"
       ]
-    }]
-  },
-  {
-    "category": "Path Analysis",
-    "functions": [{
-      "functionName": "Sessionize",
-      "query": [
-        "SELECT * FROM Sessionize( ON adweb_clickstream AS \"input\" PARTITION BY userid ORDER BY clicktime using TimeColumn('clicktime') TimeOut(60) ClickLag(0.2) EmitNull('False') ) as dt order by 1,2,3,4,5,6,7;",
-        "SELECT * FROM Sessionize( ON adweb_clickstream AS \"input\" PARTITION BY userid ORDER BY clicktime using TimeColumn('clicktime') TimeOut(60) ) as dt order by 1,2,3,4,5,6;"
-      ]
     },
+      {
+        "functionName": "Sessionize",
+        "query": [
+          "SELECT * FROM Sessionize( ON adweb_clickstream AS \"input\" PARTITION BY userid ORDER BY clicktime using TimeColumn('clicktime') TimeOut(60) ClickLag(0.2) EmitNull('False') ) as dt order by 1,2,3,4,5,6,7;",
+          "SELECT * FROM Sessionize( ON adweb_clickstream AS \"input\" PARTITION BY userid ORDER BY clicktime using TimeColumn('clicktime') TimeOut(60) ) as dt order by 1,2,3,4,5,6;"
+        ]
+      },
       {
         "functionName": "nPath",
         "query": [
