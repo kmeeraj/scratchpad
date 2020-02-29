@@ -2,7 +2,7 @@ import {Component, ViewChild, ElementRef, OnInit} from '@angular/core';
 import { Chart } from 'angular-highcharts';
 import ForceGraph3D from '3d-force-graph';
 import { dummyjson, realjson } from '../json/miserables';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {AnalyticsService} from '../app/services/analytics.service';
 @Component({
@@ -15,8 +15,9 @@ export class GraphsComponent implements OnInit{
     cloudPerf = new FormGroup({
         category: new FormControl(''),
         function: new FormControl(''),
-        query: new FormControl(''),
-        cloud: new FormControl('')
+        cloud: new FormControl(''),
+        queries: new FormArray([
+        ])
     })
     @ViewChild('child',{static:true})child: ElementRef;
     highChartsOptions =
@@ -24,6 +25,7 @@ export class GraphsComponent implements OnInit{
         chart: {
             renderTo: 'container',
             type: 'column',
+            height:'30%',
             options3d: {
                 enabled: true,
                 alpha: 15,
@@ -75,7 +77,7 @@ export class GraphsComponent implements OnInit{
 
   sampleCats = { Analytics : []};
 
-  constructor(private analyticsService: AnalyticsService){
+  constructor(private analyticsService: AnalyticsService, private formBuilder: FormBuilder){
 
   }
 
@@ -108,8 +110,17 @@ export class GraphsComponent implements OnInit{
 
     this.cloudPerf.get('function').valueChanges.subscribe(
       val =>{
-          this.queries = this.getQueries(val);
-      }
+         this.queries = this.getQueries(val);
+         this.cloudPerf.setControl('queries', this.formBuilder.array([]));
+         this.queries.forEach(q => {
+          (this.cloudPerf.get('queries') as FormArray).push(
+          new FormControl(`${q}`)
+          );
+         }
+         )
+         console.log(this.cloudPerf.get('queries').value);
+        
+    }
   );
 
    // this.myGraph = ForceGraph3D()(this.child.nativeElement).graphData(dummyjson);

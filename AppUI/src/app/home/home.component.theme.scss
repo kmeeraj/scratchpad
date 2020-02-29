@@ -1,0 +1,21 @@
+@mixin home-component-theme($theme) {
+    $foreground: map-get($theme, foreground);
+    $background: map-get($theme, background);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
+
+    h1:nth-child(1) {
+        color: mat-color($primary, text);
+    }
+
+    h1:nth-child(2) {
+        color: mat-color($accent, text);
+    }
+    .procedure {
+        color: mat-color($accent, text);
+    }
+   
+
+}
