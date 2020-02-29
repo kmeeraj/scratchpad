@@ -163,13 +163,15 @@ export class GraphsComponent implements OnInit{
     this.analyticsService.getTimes().subscribe( (data) => {
       this.sampleData = data;
       this.renderGraph();
+    },(error)=>{
+      this.openSnackBar("Some error occurred");
     });
   }
 
   runAll() {
     this.analyticsService.runAll().subscribe((data) => {
       console.log(data);
-      this.openSnackBar(data.toString());
+      this.openSnackBar("All functions ran successfully");
     },(error)=>{
       this.openSnackBar("Some error occurred");
     });

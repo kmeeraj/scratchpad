@@ -42,7 +42,7 @@
                [value]="query"></textarea>
             </mat-form-field>
                  </ng-container> -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Choose Cloud</mat-label>
                 <mat-select formControlName="cloud" multiple>
                     <mat-option *ngFor="let cloud of clouds;let i = index" [value]="cloud" [disabled]="i==2">{{ cloud }}</mat-option>
