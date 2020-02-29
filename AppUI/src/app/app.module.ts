@@ -13,12 +13,14 @@ import {ChartModule , HIGHCHARTS_MODULES} from 'angular-highcharts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import * as threed from 'highcharts/highcharts-3d';
 import { HomeComponent } from './home/home.component';
+import { CostComponent } from './cost/cost.component';
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     GraphsComponent,
-    HomeComponent
+    HomeComponent,
+    CostComponent
   ],
   imports: [
     BrowserModule,
