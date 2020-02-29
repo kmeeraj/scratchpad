@@ -1,25 +1,49 @@
 [{
-    "category": "Data Preparation and Transformation",
+  "category": "Data Preparation and Transformation",
+  "functions": [{
+    "functionName": "antiselect",
+    "query": [
+      "select * from antiselect( on antiselect_test Using Exclude('a') )as dt order by 1,2,3;",
+      "select * from antiselect( on antiselect_test Using Exclude('d') )as dt order by 1,2,3;"
+    ]
+  }]
+},
+  {
+    "category": "Pattern Analysis",
     "functions": [{
-      "functionName": "antiselect",
+      "functionName": "Attribution",
       "query": [
-        "select * from antiselect ( on antiselect_test Using Exclude('a') ) as dt order by 1,2,3 ;",
-        "select * from antiselect ( on antiselect_test Using Exclude('d') ) as dt order by 1,2,3 ;"
+        "SELECT * FROM Attribution( ON attribution_sample_table AS \"input\" PARTITION BY user_id ORDER BY time_stamp ON attribution_sample_table2 AS \"input2\" PARTITION BY user_id ORDER BY time_stamp ON conversion_event_table AS \"ConversionEventTable\" DIMENSION  ON excluding_event_table AS \"ExcludedEventTable\" DIMENSION  ON optional_event_table AS \"OptionalEventTable\" DIMENSION  ON model1_table AS \"FirstModel\" DIMENSION  using EventColumn('event') TimeColumn('time_stamp') WindowSize('rows:10') ) as dt order by 1,2,3,4,5;"
+      ]
+    }]
+  },
+  {
+    "category": "Path Analysis",
+    "functions": [{
+      "functionName": "Sessionize",
+      "query": [
+        "SELECT * FROM Sessionize( ON adweb_clickstream AS \"input\" PARTITION BY userid ORDER BY clicktime using TimeColumn('clicktime') TimeOut(60) ClickLag(0.2) EmitNull('False') ) as dt order by 1,2,3,4,5,6,7;",
+        "SELECT * FROM Sessionize( ON adweb_clickstream AS \"input\" PARTITION BY userid ORDER BY clicktime using TimeColumn('clicktime') TimeOut(60) ) as dt order by 1,2,3,4,5,6;"
       ]
     },
       {
-        "functionName": "unpack",
+        "functionName": "nPath",
         "query": [
-          "SELECT packed_data, cast( gender as varchar(1000)) as gender, cast(race as varchar(1000) ) as race, numBuys, numSells, id, src FROM unpack( ON unpack_input using TargetColumn('packed_data') OutputColumns('packed_data','gender','race','numBuys','numSells') OutputDataTypes('INTEGER','varchar','varchar','INTEGER','INTEGER') Regex('(.*)') RegexSet(1) IgnoreInvalid('False') )as dt order by 1,2,3,4,5,6,7 ;"
+          "SELECT * FROM npath ( ON aggregate_clicks PARTITION BY sessionid ORDER BY clicktime using MODE(nonoverlapping) PATTERN('H+.D*.C{3,}.D') SYMBOLS(pagetype = 'home' as H, pagetype='checkout' as C, pagetype<>'home' and pagetype<>'checkout' as D) RESULT(first(sessionid of C) as sessionid, max_choose(productprice, productname of C) as most_expensive_product, max(productprice of C) as max_price, min_choose(productprice, productname of C) as least_expensive_product, min(productprice of C) as min_price ) ) as dt order by 1,2,3,4,5;",
+          "SELECT * FROM npath( ON aggregate_clicks PARTITION BY sessionid ORDER BY clicktime using MODE(nonoverlapping) PATTERN('REFERRER{2,}') SYMBOLS(referrer is not null as REFERRER) RESULT (first(sessionid of REFERRER) as sessionid, first(productname of REFERRER) as product ) ) as dt order by 1,2;"
         ]
       }
     ]
   },
-    {
-      "category": "Path and Pattern Analysis",
-      "functions": [{
-        "functionName": "Attribution",
-        "query": ["SELECT * FROM Attribution( ON attribution_sample_table AS \"input\" PARTITION BY user_id ORDER BY time_stamp ON attribution_sample_table2 AS \"input2\" PARTITION BY user_id ORDER BY time_stamp ON conversion_event_table AS \"ConversionEventTable\" DIMENSION  ON excluding_event_table AS \"ExcludedEventTable\" DIMENSION  ON optional_event_table AS \"OptionalEventTable\" DIMENSION  ON model1_table AS \"FirstModel\" DIMENSION  using EventColumn('event') TimeColumn('time_stamp') WindowSize('rows:10') ) as dt order by 1,2,3,4,5 ;"]
-      }]
-    }
-  ]
+  {
+    "category": "Text Analysis",
+    "functions": [{
+      "functionName": "NGram",
+      "query": [
+        "select * from ngramSplitter( ON documents USING TextColumn('content') Grams('2')) AS DOT order by 1,2,3,4,5;",
+        "select * from ngramSplitter( ON documents USING TextColumn('content') Grams('2-4')) AS DOT order by 1,2,3,4,5;",
+        "select * from ngramSplitter( ON feedbacks USING TextColumn('review') Grams('2-4') Delimiter(',') Overlapping('True') ConvertToLowerCase('True') RESET('[.]') Punctuation('[`~#^&*()-]') OutputTotalGramCOunt('True') TotalCountColName('TotalCount') Accumulate('id') NGramColName('nGramsSplitted') GramLengthColName('nGramLength') FrequencyColName('nGramFreq') ) AS DOT order by 1,2,3,4,5;"
+      ]
+    }]
+  }
+]

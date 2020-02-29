@@ -50,6 +50,19 @@ public class SqleFunctionRestController {
         return list;
     }
 
+    @PostMapping("/runAll")
+    public Response runAll(@RequestBody String message) throws IOException {
+        List<Analytical> list = parser.parseJson();
+        List<FunctionTime> timeReport = new ArrayList<>();
+        for(Analytical analytical: list){
+            for(Functions funct: analytical.getFunctions()){
+                executeOnCloud(true, true, timeReport, funct);
+            }
+        }
+        saveAllFunctionTime(timeReport);
+        return Response.builder().status("success").message("successfully submitted.").build();
+    }
+
     @PostMapping("/runAnalytics")
     public Response runAnalytics(@RequestBody RequestDTO requestDTO) throws IOException {
         LOGGER.info("Request: "+requestDTO);
@@ -69,12 +82,21 @@ public class SqleFunctionRestController {
         List<Analytical> list = parser.parseJson();
         Analytical functions = list.stream().filter(analytical -> analytical.getCategory().equals(requestDTO.getCategory())).findFirst().orElse(null);
         Functions funct = functions.getFunctions().stream().filter(function -> function.getFunctionName().equals(requestDTO.getFunction())).findFirst().orElse(null);
-        /*SqleFunction sqleFunction = sqleFunctionRepository.getSqleFunctionByCategoryAndFunctionName(funct.getFunctionName(), requestDTO.getCategory());
-        if(sqleFunction == null)
-        {
-            List<SqleFunction> set = sqleFunctionRepository.getSqleFunctionByFunctionName(funct.getFunctionName());
-            sqleFunction = set.get(0);
-        }*/
+
+        executeOnCloud(enableAWS, enableAzure, timeReport, funct);
+        saveAllFunctionTime(timeReport);
+        return Response.builder().status("success").message("successfully submitted.").build();
+    }
+
+    private void saveAllFunctionTime(List<FunctionTime> timeReport) {
+        try {
+            functionTimeRepository.saveAll(timeReport);
+        } catch (DataAccessException e){
+            LOGGER.error("could not execute", e);
+        }
+    }
+
+    private void executeOnCloud(boolean enableAWS, boolean enableAzure, List<FunctionTime> timeReport, Functions funct) {
         for(String query: funct.getQuery()){
 
             if(enableAWS){
@@ -134,12 +156,6 @@ public class SqleFunctionRestController {
                 }
             }
         }
-        try {
-            functionTimeRepository.saveAll(timeReport);
-        } catch (DataAccessException e){
-            LOGGER.error("could not execute", e);
-        }
-        return Response.builder().status("success").message("successfully submitted.").build();
     }
 
 }

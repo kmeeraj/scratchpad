@@ -14,8 +14,8 @@ public class Graph {
 
     private boolean aws;
     private boolean azure;
-    private int awsvalue;
-    private int azurevalue;
+    private long awsvalue;
+    private long azurevalue;
     private int awsCount = 0;
     private int azureCount = 0;
 

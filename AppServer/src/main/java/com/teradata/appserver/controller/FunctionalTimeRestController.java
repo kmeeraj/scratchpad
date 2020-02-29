@@ -39,11 +39,11 @@ public class FunctionalTimeRestController {
             if(functionTime.getCloud().equalsIgnoreCase("AWS")){
                 graph.setAws(true);
                 graph.setAwsCount(graph.getAwsCount() + 1);
-                graph.setAwsvalue(graph.getAwsvalue() + 1);
+                graph.setAwsvalue(graph.getAwsvalue() + functionTime.getTimeTakenMs());
             } else {
                 graph.setAzure(true);
                 graph.setAzureCount(graph.getAzureCount() + 1);
-                graph.setAzurevalue(graph.getAzurevalue() + 1);
+                graph.setAzurevalue(graph.getAzurevalue() + functionTime.getTimeTakenMs());
             }
             map.put(functionTime.getFunctionName(), graph);
 
