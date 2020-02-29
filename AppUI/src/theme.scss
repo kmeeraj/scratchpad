@@ -1,7 +1,7 @@
 @import '~@angular/material/theming';
 @import '~@covalent/core/theming/all-theme';
 @import '../src/main/main.component.theme.scss';
-
+@import '../src/app/home/home.component.theme.scss';
 
 $custom-typography: mat-typography-config(
   $button: mat-typography-level(14px, 14px, 400)
@@ -29,7 +29,7 @@ $mat-font-url: '../node_modules/@covalent/core/common/styles/font/';
 @include covalent-colors();
 
 $primary: mat-palette($td-slate, 700, 100, 900);
-$accent: mat-palette($td-teal, 800, 200, 900);
+$accent: mat-palette($td-orange, 800, 200, 900);
 $warn: mat-palette($mat-red, 600, 200, 900);
 
 $theme: mat-light-theme($primary, $accent, $warn);
@@ -37,6 +37,7 @@ $theme: mat-light-theme($primary, $accent, $warn);
 
 @mixin sample-charts-theme($theme) {
     @include main-component-theme($theme);
+    @include home-component-theme($theme);
 }
 
 @include angular-material-theme($theme);

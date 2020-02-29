@@ -24,6 +24,7 @@ export class GraphsComponent implements OnInit{
         chart: {
             renderTo: 'container',
             type: 'column',
+            height:'30%',
             options3d: {
                 enabled: true,
                 alpha: 15,
