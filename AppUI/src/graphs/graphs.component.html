@@ -16,12 +16,13 @@
                 </mat-select>
             </mat-form-field>
 
-            <div formArrayName="names" *ngFor="let item of cloudPerf.get('names').controls;index as idx">
-            
-                <textarea
+            <div formArrayName="queries" *ngFor="let item of cloudPerf.get('queries').controls;index as idx">
+            <mat-form-field>
+                <textarea rows="4" cols="4"
                 matInput [formControlName]="idx"
-                [value]="item.value"></textarea>
-            
+                [value]="item.value" >
+            </textarea>
+            </mat-form-field>
        
             </div>
         <!--     <ng-container *ngFor="let query of queries;let i = index">
